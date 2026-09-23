@@ -18,10 +18,10 @@ body {
   font-family: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
   color: var(--texto);
   background: var(--branco);
-  padding-top: 76px; /* altura da navbar fixa */
+  padding-top: 92px; /* altura da navbar fixa */
 }
 
-section { scroll-margin-top: 80px; }
+section { scroll-margin-top: 96px; }
 
 .text-azul { color: var(--azul-medio) !important; }
 .bg-azul-claro { background: var(--azul-claro); }
@@ -37,7 +37,15 @@ section { scroll-margin-top: 80px; }
 /* ---------- Navbar ---------- */
 .navbar { background: rgba(255,255,255,.97); box-shadow: 0 2px 14px rgba(10,42,94,.08); }
 .navbar-brand { font-weight: 700; color: var(--azul-escuro) !important; }
-.navbar-brand i { color: var(--azul); }
+.navbar-brand { padding: 0; }
+.logo-topo { height: 56px; width: auto; display: block; }
+/* logo no rodapé: selo branco para manter as cores originais sobre o azul */
+.logo-rodape {
+  display: inline-block; background: #fff; border-radius: 14px;
+  padding: .6rem .9rem; box-shadow: 0 6px 18px rgba(0,0,0,.15);
+}
+.logo-rodape img { height: 72px; width: auto; display: block; }
+.wa-topo .avatar img { width: 34px; height: 34px; object-fit: contain; }
 .navbar .nav-link { font-weight: 500; color: var(--azul-escuro); }
 .navbar .nav-link:hover, .navbar .nav-link.active { color: var(--azul); }
 
@@ -275,7 +283,9 @@ footer a:hover { color: #fff; }
 
 /* ---------- Responsivo ---------- */
 @media (max-width: 767.98px) {
-  body { padding-top: 66px; }
+  body { padding-top: 76px; }
+  .logo-topo { height: 44px; }
+  .logo-rodape img { height: 64px; }
   .hero { padding: 1rem 0 2rem; }
   /* Mobile: foto inteira em cima, texto num painel azul embaixo */
   .hero-card { min-height: 0; }
