@@ -175,6 +175,14 @@ footer a:hover { color: #fff; }
 }
 .social a:hover { background: var(--azul); }
 .rodape-base { border-top: 1px solid rgba(255,255,255,.12); }
+.rodape-base .nobr { white-space: nowrap; }
+@media (max-width: 767.98px) {
+  /* no celular cada informação fica numa linha e sobra espaço para os botões flutuantes */
+  .rodape-base { padding-bottom: 84px !important; line-height: 1.7; }
+  .rodape-base .nobr { display: block; }
+  .rodape-base .quebra { white-space: normal; }
+  .rodape-base .sep, .rodape-base br { display: none; }
+}
 
 /* ---------- Botão voltar ao topo (pulsando azul escuro) ---------- */
 .btn-topo {
@@ -269,7 +277,7 @@ footer a:hover { color: #fff; }
   .hero-overlay p { font-size: 1rem; }
   .hero-overlay .btn { width: 100%; }
   .flip-card { height: 400px; }
-  .btn-topo { right: 18px; bottom: 94px; width: 46px; height: 46px; }
+  .btn-topo { right: auto; left: 18px; bottom: 24px; width: 48px; height: 48px; }
   .wa-btn { right: 16px; bottom: 20px; width: 56px; height: 56px; }
   .wa-balao { display: none; }
   .wa-janela { right: 16px; bottom: 88px; }
