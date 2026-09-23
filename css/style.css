@@ -1,0 +1,280 @@
+/* =========================================================
+   Clínica Provida — tema azul e branco
+   ========================================================= */
+:root {
+  --azul-escuro: #0a2a5e;
+  --azul: #0d6efd;
+  --azul-medio: #1e5bb8;
+  --azul-claro: #e8f1ff;
+  --branco: #ffffff;
+  --texto: #1f2d3d;
+  --cinza: #6c7a89;
+  --raio: 18px;
+  --sombra: 0 10px 30px rgba(10, 42, 94, .12);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--texto);
+  background: var(--branco);
+  padding-top: 76px; /* altura da navbar fixa */
+}
+
+section { scroll-margin-top: 80px; }
+
+.text-azul { color: var(--azul-medio) !important; }
+.bg-azul-claro { background: var(--azul-claro); }
+.bg-azul-escuro { background: var(--azul-escuro); }
+
+.section-title { font-weight: 700; color: var(--azul-escuro); }
+.section-title::after {
+  content: ""; display: block; width: 60px; height: 4px;
+  background: var(--azul); border-radius: 4px; margin: 12px auto 0;
+}
+.section-sub { color: var(--cinza); max-width: 640px; margin: 0 auto; }
+
+/* ---------- Navbar ---------- */
+.navbar { background: rgba(255,255,255,.97); box-shadow: 0 2px 14px rgba(10,42,94,.08); }
+.navbar-brand { font-weight: 700; color: var(--azul-escuro) !important; }
+.navbar-brand i { color: var(--azul); }
+.navbar .nav-link { font-weight: 500; color: var(--azul-escuro); }
+.navbar .nav-link:hover, .navbar .nav-link.active { color: var(--azul); }
+
+.btn-azul {
+  background: var(--azul-medio); color: #fff; border: none;
+  border-radius: 50px; padding: .6rem 1.5rem; font-weight: 500;
+  transition: background .25s, transform .25s;
+}
+.btn-azul:hover { background: var(--azul-escuro); color: #fff; transform: translateY(-2px); }
+.btn-outline-light { border-radius: 50px; padding: .6rem 1.5rem; }
+
+/* ---------- Hero (card da fachada) ---------- */
+.hero { padding: 2rem 0 3rem; }
+.hero-card {
+  position: relative; overflow: hidden;
+  border: none; border-radius: 24px; box-shadow: var(--sombra);
+  min-height: 75vh;
+}
+.hero-card img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; transform: scale(1.02);
+  transition: transform 6s ease;
+}
+.hero-card:hover img { transform: scale(1.08); }
+.hero-overlay {
+  position: relative; z-index: 2; min-height: 75vh;
+  display: flex; align-items: flex-end;
+  padding: 3rem;
+  background: linear-gradient(to top, rgba(10,42,94,.92) 0%, rgba(10,42,94,.55) 45%, rgba(10,42,94,.05) 100%);
+  color: #fff;
+}
+.hero-overlay h1 { font-weight: 700; font-size: clamp(1.9rem, 4vw, 3.2rem); }
+.hero-overlay p { font-size: 1.1rem; opacity: .92; max-width: 620px; }
+.hero-badge {
+  display: inline-block; background: rgba(255,255,255,.18); backdrop-filter: blur(6px);
+  padding: .35rem 1rem; border-radius: 50px; font-size: .85rem; margin-bottom: 1rem;
+}
+
+/* ---------- Diferenciais ---------- */
+.info-box {
+  background: #fff; border-radius: var(--raio); box-shadow: var(--sombra);
+  padding: 1.8rem 1.5rem; height: 100%; text-align: center;
+  transition: transform .3s, box-shadow .3s;
+}
+.info-box:hover { transform: translateY(-6px); box-shadow: 0 16px 36px rgba(10,42,94,.18); }
+.info-box .icone {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--azul-claro); color: var(--azul-medio);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 1.7rem; margin-bottom: 1rem;
+}
+.info-box h5 { font-weight: 600; color: var(--azul-escuro); }
+
+/* ---------- Sobre ---------- */
+.sobre-img { border-radius: var(--raio); box-shadow: var(--sombra); width: 100%; object-fit: cover; aspect-ratio: 4/3; }
+.numero { font-size: 2rem; font-weight: 700; color: var(--azul-medio); line-height: 1; }
+
+/* ---------- Cards dos médicos (efeito flip) ---------- */
+.flip-card { perspective: 1200px; height: 420px; cursor: pointer; outline: none; }
+.flip-inner {
+  position: relative; width: 100%; height: 100%;
+  transition: transform .8s cubic-bezier(.2,.8,.2,1);
+  transform-style: preserve-3d;
+}
+/* Desktop: gira ao passar o mouse */
+@media (hover: hover) and (pointer: fine) {
+  .flip-card:hover .flip-inner { transform: rotateY(180deg); }
+}
+/* Mobile / teclado: gira ao tocar / Enter */
+.flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+
+.flip-front, .flip-back {
+  position: absolute; inset: 0; border-radius: var(--raio);
+  -webkit-backface-visibility: hidden; backface-visibility: hidden;
+  box-shadow: var(--sombra); overflow: hidden;
+}
+.flip-front { background: #fff; display: flex; flex-direction: column; }
+.flip-front img { width: 100%; height: 280px; object-fit: cover; object-position: top; }
+.flip-front .corpo { padding: 1.1rem 1.2rem; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.flip-front h5 { font-weight: 600; color: var(--azul-escuro); margin-bottom: .2rem; }
+.flip-front .crm { color: var(--cinza); font-size: .85rem; }
+.flip-front .dica {
+  margin-top: .5rem; font-size: .82rem; color: var(--azul-medio); font-weight: 500;
+}
+.flip-front .dica i { animation: balanca 1.6s ease-in-out infinite; display: inline-block; }
+@keyframes balanca { 0%,100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
+
+.flip-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(145deg, var(--azul-medio), var(--azul-escuro));
+  color: #fff; padding: 1.8rem 1.5rem;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.flip-back h5 { font-weight: 600; margin-bottom: .2rem; }
+.flip-back .area { opacity: .8; font-size: .9rem; margin-bottom: 1rem; }
+.flip-back ul { list-style: none; padding: 0; margin: 0 0 1.2rem; }
+.flip-back li { padding: .35rem 0; border-bottom: 1px solid rgba(255,255,255,.15); font-size: .92rem; }
+.flip-back li i { color: #7fb4ff; margin-right: .5rem; }
+.flip-back .btn { border-radius: 50px; font-weight: 500; }
+
+.dica-mobile { display: none; }
+@media (hover: none), (pointer: coarse) {
+  .dica-desktop { display: none; }
+  .dica-mobile { display: inline; }
+}
+
+/* ---------- Especialidades ---------- */
+.esp-item {
+  background: #fff; border: 1px solid #e3ecfa; border-radius: 14px;
+  padding: 1.2rem; display: flex; align-items: center; gap: 1rem; height: 100%;
+  transition: all .3s;
+}
+.esp-item i { font-size: 1.6rem; color: var(--azul-medio); transition: color .3s; }
+.esp-item span { font-weight: 500; color: var(--azul-escuro); transition: color .3s; }
+.esp-item:hover { background: var(--azul-medio); border-color: var(--azul-medio); transform: translateY(-4px); }
+.esp-item:hover i, .esp-item:hover span { color: #fff; }
+
+/* ---------- Contato ---------- */
+.contato-card { background: #fff; border-radius: var(--raio); box-shadow: var(--sombra); padding: 2rem; height: 100%; }
+.contato-linha { display: flex; gap: 1rem; margin-bottom: 1.2rem; }
+.contato-linha i { font-size: 1.4rem; color: var(--azul-medio); }
+.form-control, .form-select { border-radius: 12px; padding: .7rem 1rem; }
+.form-control:focus, .form-select:focus { border-color: var(--azul); box-shadow: 0 0 0 .2rem rgba(13,110,253,.15); }
+.mapa { border: 0; width: 100%; height: 100%; min-height: 300px; border-radius: var(--raio); }
+
+/* ---------- Rodapé ---------- */
+footer { background: var(--azul-escuro); color: rgba(255,255,255,.85); }
+footer h6 { color: #fff; font-weight: 600; margin-bottom: 1rem; }
+footer a { color: rgba(255,255,255,.8); text-decoration: none; }
+footer a:hover { color: #fff; }
+.social a {
+  width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.1);
+  display: inline-flex; align-items: center; justify-content: center; margin-right: .4rem;
+  transition: background .3s;
+}
+.social a:hover { background: var(--azul); }
+.rodape-base { border-top: 1px solid rgba(255,255,255,.12); }
+
+/* ---------- Botão voltar ao topo (pulsando azul escuro) ---------- */
+.btn-topo {
+  position: fixed; right: 24px; bottom: 100px; z-index: 1040;
+  width: 52px; height: 52px; border-radius: 50%; border: 2px solid #fff;
+  background: var(--azul-escuro); color: #fff; font-size: 1.4rem;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transform: translateY(20px);
+  transition: opacity .35s, visibility .35s, transform .35s;
+  animation: pulsar 1.8s infinite;
+}
+.btn-topo.visivel { opacity: 1; visibility: visible; transform: translateY(0); }
+.btn-topo:hover { background: #061c40; }
+.btn-topo.no-rodape { animation-duration: 1s; } /* pulsa mais rápido ao chegar no rodapé */
+@keyframes pulsar {
+  0%   { box-shadow: 0 0 0 0 rgba(10,42,94,.75); }
+  70%  { box-shadow: 0 0 0 18px rgba(10,42,94,0); }
+  100% { box-shadow: 0 0 0 0 rgba(10,42,94,0); }
+}
+
+/* ---------- WhatsApp interativo ---------- */
+.wa-btn {
+  position: fixed; right: 22px; bottom: 24px; z-index: 1050;
+  width: 60px; height: 60px; border-radius: 50%; border: none;
+  background: #25d366; color: #fff; font-size: 1.9rem;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 22px rgba(37,211,102,.45);
+  transition: transform .3s;
+}
+.wa-btn:hover { transform: scale(1.08) rotate(-8deg); }
+.wa-btn .badge-wa {
+  position: absolute; top: -2px; right: -2px; width: 20px; height: 20px;
+  background: #ff3b30; border-radius: 50%; font-size: .7rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; border: 2px solid #fff;
+}
+.wa-balao {
+  position: fixed; right: 92px; bottom: 34px; z-index: 1049;
+  background: #fff; color: var(--texto); padding: .55rem 1rem; border-radius: 12px;
+  box-shadow: var(--sombra); font-size: .88rem; white-space: nowrap;
+  opacity: 0; transform: translateX(10px); transition: all .4s; pointer-events: none;
+}
+.wa-balao.mostrar { opacity: 1; transform: translateX(0); }
+
+.wa-janela {
+  position: fixed; right: 22px; bottom: 96px; z-index: 1051;
+  width: 340px; max-width: calc(100vw - 32px);
+  background: #fff; border-radius: 18px; overflow: hidden;
+  box-shadow: 0 18px 45px rgba(0,0,0,.2);
+  opacity: 0; visibility: hidden; transform: translateY(20px) scale(.96);
+  transform-origin: bottom right; transition: all .3s ease;
+}
+.wa-janela.aberta { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+.wa-topo { background: #075e54; color: #fff; padding: 1rem; display: flex; align-items: center; gap: .8rem; }
+.wa-topo .avatar {
+  width: 44px; height: 44px; border-radius: 50%; background: #fff; color: var(--azul-medio);
+  display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+}
+.wa-topo small { opacity: .85; }
+.wa-topo .fechar { margin-left: auto; background: none; border: none; color: #fff; font-size: 1.3rem; }
+.wa-corpo { background: #ece5dd; padding: 1rem; }
+.wa-msg {
+  background: #fff; padding: .7rem .9rem; border-radius: 0 12px 12px 12px;
+  font-size: .9rem; margin-bottom: .8rem; box-shadow: 0 1px 2px rgba(0,0,0,.1);
+}
+.wa-opcao {
+  display: block; width: 100%; text-align: left; background: #fff; border: 1px solid #d6e6d9;
+  border-radius: 10px; padding: .55rem .8rem; margin-bottom: .45rem; font-size: .88rem;
+  color: #075e54; transition: background .2s;
+}
+.wa-opcao:hover { background: #dcf8c6; }
+.wa-rodape { display: flex; gap: .5rem; padding: .7rem; background: #f0f0f0; }
+.wa-rodape input { flex: 1; border: none; border-radius: 50px; padding: .5rem 1rem; font-size: .9rem; outline: none; }
+.wa-rodape button { width: 40px; height: 40px; border: none; border-radius: 50%; background: #25d366; color: #fff; }
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 767.98px) {
+  body { padding-top: 66px; }
+  .hero { padding: 1rem 0 2rem; }
+  /* Mobile: foto inteira em cima, texto num painel azul embaixo */
+  .hero-card { min-height: 0; }
+  .hero-card img {
+    position: static; display: block;
+    width: 100%; height: auto; aspect-ratio: auto;
+    object-fit: contain; transform: none;
+  }
+  .hero-card:hover img { transform: none; }
+  .hero-overlay {
+    min-height: 0; padding: 1.5rem 1.4rem 1.8rem;
+    background: linear-gradient(160deg, var(--azul-medio), var(--azul-escuro));
+  }
+  .hero-overlay h1 { font-size: 1.6rem; }
+  .hero-overlay p { font-size: 1rem; }
+  .hero-overlay .btn { width: 100%; }
+  .flip-card { height: 400px; }
+  .btn-topo { right: 18px; bottom: 94px; width: 46px; height: 46px; }
+  .wa-btn { right: 16px; bottom: 20px; width: 56px; height: 56px; }
+  .wa-balao { display: none; }
+  .wa-janela { right: 16px; bottom: 88px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

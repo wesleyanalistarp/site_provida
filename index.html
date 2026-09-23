@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Policlínica Pro Vida | Caetité - BA</title>
+  <meta name="description" content="Clínica Provida — atendimento médico humanizado com especialistas em diversas áreas.">
+
+  <!-- Bootstrap 5 + ícones + fonte -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body data-bs-spy="scroll" data-bs-target="#menu" data-bs-offset="90">
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg fixed-top py-3">
+  <div class="container">
+    <a class="navbar-brand fs-4" href="#inicio"><i class="bi bi-heart-pulse-fill me-1"></i> Provida</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-label="Abrir menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+        <li class="nav-item"><a class="nav-link" href="#inicio">Início</a></li>
+        <li class="nav-item"><a class="nav-link" href="#sobre">Sobre</a></li>
+        <li class="nav-item"><a class="nav-link" href="#especialidades">Especialidades</a></li>
+        <li class="nav-item"><a class="nav-link" href="#medicos">Corpo Clínico</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+          <a class="btn btn-azul" href="#" data-wa-msg="Olá! Gostaria de agendar uma consulta.">
+            <i class="bi bi-calendar-check me-1"></i> Agendar
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HERO: CARD DA FACHADA ================= -->
+<section id="inicio" class="hero">
+  <div class="container">
+    <div class="card hero-card">
+      <!-- Foto da fachada (para trocar, substitua o arquivo em img/) -->
+      <img src="img/fachada_01.png" alt="Fachada da Clínica Provida">
+      <div class="hero-overlay">
+        <div>
+          <span class="hero-badge"><i class="bi bi-shield-check me-1"></i> Cuidado humanizado desde 2019</span>
+          <h1>Sua saúde em boas mãos,<br>com quem entende de cuidar.</h1>
+          <p class="mb-4">Especialistas de diversas áreas, estrutura moderna e atendimento acolhedor para você e sua família.</p>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="#medicos" class="btn btn-light text-azul fw-semibold rounded-pill px-4 py-2">
+              <i class="bi bi-people-fill me-1"></i> Conheça nossos médicos
+            </a>
+            <a href="#" class="btn btn-outline-light" data-wa-msg="Olá! Gostaria de agendar uma consulta.">
+              <i class="bi bi-whatsapp me-1"></i> Agendar pelo WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DIFERENCIAIS ================= -->
+<section class="pb-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-6 col-lg-3">
+        <div class="info-box">
+          <div class="icone"><i class="bi bi-clock-history"></i></div>
+          <h5>Horário estendido</h5>
+          <p class="text-muted small mb-0">Seg. a sex. das 7h às 19h e sábados pela manhã.</p>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="info-box">
+          <div class="icone"><i class="bi bi-person-heart"></i></div>
+          <h5>Atendimento humanizado</h5>
+          <p class="text-muted small mb-0">Escuta atenta e cuidado em cada etapa.</p>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="info-box">
+          <div class="icone"><i class="bi bi-clipboard2-pulse"></i></div>
+          <h5>Exames no local</h5>
+          <p class="text-muted small mb-0">Laboratório, ultrassom, raio-X e mais, sem precisar sair da clínica.</p>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="info-box">
+          <div class="icone"><i class="bi bi-hospital"></i></div>
+          <h5>Estrutura moderna</h5>
+          <p class="text-muted small mb-0">Equipamentos atualizados e ambiente confortável.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SOBRE ================= -->
+<section id="sobre" class="py-5 bg-azul-claro">
+  <div class="container py-lg-4">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <!-- TROQUE AQUI: img/recepcao.jpg -->
+        <img class="sobre-img" src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&q=80"
+             onerror="this.onerror=null;this.src='https://picsum.photos/seed/provida-recepcao/1200/900';"
+             alt="Recepção da clínica">
+      </div>
+      <div class="col-lg-6">
+        <h6 class="text-azul fw-semibold text-uppercase">Sobre a Provida</h6>
+        <h2 class="fw-bold mb-3" style="color:var(--azul-escuro)">Desde 2019 cuidando de vidas em Caetité</h2>
+        <p class="text-muted">A Clínica Provida nasceu com o propósito de oferecer atendimento médico de qualidade, com proximidade e respeito. Reunimos profissionais experientes em diversas especialidades para acompanhar você em todas as fases da vida.</p>
+        <p class="text-muted">Nossa missão é unir tecnologia, conhecimento e acolhimento para promover saúde e bem-estar.</p>
+        <div class="row text-center mt-4 g-3">
+          <div class="col-4"><div class="numero" data-contar="7">0</div><small class="text-muted">Anos</small></div>
+          <div class="col-4"><div class="numero" data-contar="20">0</div><small class="text-muted">Especialistas</small></div>
+          <div class="col-4"><div class="numero" data-contar="30" data-sufixo=" mil+">0</div><small class="text-muted">Pacientes</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ESPECIALIDADES ================= -->
+<section id="especialidades" class="py-5">
+  <div class="container py-lg-4">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Especialidades</h2>
+      <p class="section-sub mt-3">Atendimento completo em um só lugar.</p>
+    </div>
+    <div class="row g-3">
+      <div class="col-6 col-md-4 col-lg-3"><div class="esp-item"><i class="bi bi-heart-pulse"></i><span>Cardiologia</span></div></div>
+      <div class="col-6 col-md-4 col-lg-3"><div class="esp-item"><i class="bi bi-gender-female"></i><span>Ginecologia</span></div></div>
+      <div class="col-6 col-md-4 col-lg-3"><div class="esp-item"><i class="bi bi-emoji-smile"></i><span>Pediatria</span></div></div>
+      <div class="col-6 col-md-4 col-lg-3"><div class="esp-item"><i class="bi bi-person-arms-up"></i><span>Ortopedia</span></div></div>
+      <div class="col-6 col-md-4 col-lg-3"><div class="esp-item"><i class="bi bi-droplet-half"></i><span>Dermatologia</span></div></div>
+      <div class="col-6 col-md-4 col-lg-3"><div class="esp-item"><i class="bi bi-lightning-charge"></i><span>Neurologia</span></div></div>
+      <div class="col-6 col-md-4 col-lg-3"><div class="esp-item"><i class="bi bi-eye"></i><span>Oftalmologia</span></div></div>
+      <div class="col-6 col-md-4 col-lg-3"><div class="esp-item"><i class="bi bi-clipboard2-pulse"></i><span>Clínica Geral</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CORPO CLÍNICO (cards rotativos) ================= -->
+<section id="medicos" class="py-5 bg-azul-claro">
+  <div class="container py-lg-4">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Corpo Clínico</h2>
+      <p class="section-sub mt-3">
+        <span class="dica-desktop">Passe o mouse sobre o card para ver as especialidades de cada médico.</span>
+        <span class="dica-mobile">Toque no card para ver as especialidades de cada médico.</span>
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Médico 1 -->
+      <div class="col-sm-6 col-lg-4">
+        <div class="flip-card" tabindex="0" aria-label="Dr. Ricardo Almeida — ver especialidades">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. Ricardo Almeida">
+              <div class="corpo">
+                <h5>Dr. Ricardo Almeida</h5>
+                <span class="crm">Cardiologista · CRM 00000</span>
+                <span class="dica"><span class="dica-desktop">Passe o mouse</span><span class="dica-mobile">Toque aqui</span> para ver as especialidades <i class="bi bi-arrow-right"></i></span>
+              </div>
+            </div>
+            <div class="flip-back">
+              <h5>Dr. Ricardo Almeida</h5>
+              <div class="area">Cardiologia</div>
+              <ul>
+                <li><i class="bi bi-check2-circle"></i>Check-up cardiológico</li>
+                <li><i class="bi bi-check2-circle"></i>Eletrocardiograma</li>
+                <li><i class="bi bi-check2-circle"></i>Hipertensão arterial</li>
+                <li><i class="bi bi-check2-circle"></i>Risco cirúrgico</li>
+              </ul>
+              <a href="#" class="btn btn-light text-azul" data-wa-msg="Olá! Gostaria de agendar com o Dr. Ricardo Almeida (Cardiologia).">
+                <i class="bi bi-whatsapp me-1"></i> Agendar consulta
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Médico 2 -->
+      <div class="col-sm-6 col-lg-4">
+        <div class="flip-card" tabindex="0" aria-label="Dra. Fernanda Souza — ver especialidades">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Dra. Fernanda Souza">
+              <div class="corpo">
+                <h5>Dra. Fernanda Souza</h5>
+                <span class="crm">Ginecologista · CRM 00000</span>
+                <span class="dica"><span class="dica-desktop">Passe o mouse</span><span class="dica-mobile">Toque aqui</span> para ver as especialidades <i class="bi bi-arrow-right"></i></span>
+              </div>
+            </div>
+            <div class="flip-back">
+              <h5>Dra. Fernanda Souza</h5>
+              <div class="area">Ginecologia e Obstetrícia</div>
+              <ul>
+                <li><i class="bi bi-check2-circle"></i>Pré-natal</li>
+                <li><i class="bi bi-check2-circle"></i>Preventivo</li>
+                <li><i class="bi bi-check2-circle"></i>Planejamento familiar</li>
+                <li><i class="bi bi-check2-circle"></i>Climatério</li>
+              </ul>
+              <a href="#" class="btn btn-light text-azul" data-wa-msg="Olá! Gostaria de agendar com a Dra. Fernanda Souza (Ginecologia).">
+                <i class="bi bi-whatsapp me-1"></i> Agendar consulta
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Médico 3 -->
+      <div class="col-sm-6 col-lg-4">
+        <div class="flip-card" tabindex="0" aria-label="Dr. Marcos Oliveira — ver especialidades">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <img src="https://randomuser.me/api/portraits/men/46.jpg" alt="Dr. Marcos Oliveira">
+              <div class="corpo">
+                <h5>Dr. Marcos Oliveira</h5>
+                <span class="crm">Ortopedista · CRM 00000</span>
+                <span class="dica"><span class="dica-desktop">Passe o mouse</span><span class="dica-mobile">Toque aqui</span> para ver as especialidades <i class="bi bi-arrow-right"></i></span>
+              </div>
+            </div>
+            <div class="flip-back">
+              <h5>Dr. Marcos Oliveira</h5>
+              <div class="area">Ortopedia e Traumatologia</div>
+              <ul>
+                <li><i class="bi bi-check2-circle"></i>Lesões esportivas</li>
+                <li><i class="bi bi-check2-circle"></i>Coluna</li>
+                <li><i class="bi bi-check2-circle"></i>Joelho e ombro</li>
+                <li><i class="bi bi-check2-circle"></i>Infiltrações</li>
+              </ul>
+              <a href="#" class="btn btn-light text-azul" data-wa-msg="Olá! Gostaria de agendar com o Dr. Marcos Oliveira (Ortopedia).">
+                <i class="bi bi-whatsapp me-1"></i> Agendar consulta
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Médico 4 -->
+      <div class="col-sm-6 col-lg-4">
+        <div class="flip-card" tabindex="0" aria-label="Dra. Juliana Costa — ver especialidades">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Dra. Juliana Costa">
+              <div class="corpo">
+                <h5>Dra. Juliana Costa</h5>
+                <span class="crm">Pediatra · CRM 00000</span>
+                <span class="dica"><span class="dica-desktop">Passe o mouse</span><span class="dica-mobile">Toque aqui</span> para ver as especialidades <i class="bi bi-arrow-right"></i></span>
+              </div>
+            </div>
+            <div class="flip-back">
+              <h5>Dra. Juliana Costa</h5>
+              <div class="area">Pediatria</div>
+              <ul>
+                <li><i class="bi bi-check2-circle"></i>Puericultura</li>
+                <li><i class="bi bi-check2-circle"></i>Acompanhamento do crescimento</li>
+                <li><i class="bi bi-check2-circle"></i>Vacinação</li>
+                <li><i class="bi bi-check2-circle"></i>Alergias infantis</li>
+              </ul>
+              <a href="#" class="btn btn-light text-azul" data-wa-msg="Olá! Gostaria de agendar com a Dra. Juliana Costa (Pediatria).">
+                <i class="bi bi-whatsapp me-1"></i> Agendar consulta
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Médico 5 -->
+      <div class="col-sm-6 col-lg-4">
+        <div class="flip-card" tabindex="0" aria-label="Dr. André Santos — ver especialidades">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Dr. André Santos">
+              <div class="corpo">
+                <h5>Dr. André Santos</h5>
+                <span class="crm">Neurologista · CRM 00000</span>
+                <span class="dica"><span class="dica-desktop">Passe o mouse</span><span class="dica-mobile">Toque aqui</span> para ver as especialidades <i class="bi bi-arrow-right"></i></span>
+              </div>
+            </div>
+            <div class="flip-back">
+              <h5>Dr. André Santos</h5>
+              <div class="area">Neurologia</div>
+              <ul>
+                <li><i class="bi bi-check2-circle"></i>Cefaleias e enxaqueca</li>
+                <li><i class="bi bi-check2-circle"></i>Distúrbios do sono</li>
+                <li><i class="bi bi-check2-circle"></i>Epilepsia</li>
+                <li><i class="bi bi-check2-circle"></i>Memória e cognição</li>
+              </ul>
+              <a href="#" class="btn btn-light text-azul" data-wa-msg="Olá! Gostaria de agendar com o Dr. André Santos (Neurologia).">
+                <i class="bi bi-whatsapp me-1"></i> Agendar consulta
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Médico 6 -->
+      <div class="col-sm-6 col-lg-4">
+        <div class="flip-card" tabindex="0" aria-label="Dra. Camila Rocha — ver especialidades">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Dra. Camila Rocha">
+              <div class="corpo">
+                <h5>Dra. Camila Rocha</h5>
+                <span class="crm">Dermatologista · CRM 00000</span>
+                <span class="dica"><span class="dica-desktop">Passe o mouse</span><span class="dica-mobile">Toque aqui</span> para ver as especialidades <i class="bi bi-arrow-right"></i></span>
+              </div>
+            </div>
+            <div class="flip-back">
+              <h5>Dra. Camila Rocha</h5>
+              <div class="area">Dermatologia</div>
+              <ul>
+                <li><i class="bi bi-check2-circle"></i>Dermatologia clínica</li>
+                <li><i class="bi bi-check2-circle"></i>Acne e manchas</li>
+                <li><i class="bi bi-check2-circle"></i>Queda de cabelo</li>
+                <li><i class="bi bi-check2-circle"></i>Mapeamento de pintas</li>
+              </ul>
+              <a href="#" class="btn btn-light text-azul" data-wa-msg="Olá! Gostaria de agendar com a Dra. Camila Rocha (Dermatologia).">
+                <i class="bi bi-whatsapp me-1"></i> Agendar consulta
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTATO ================= -->
+<section id="contato" class="py-5">
+  <div class="container py-lg-4">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Fale Conosco</h2>
+      <p class="section-sub mt-3">Tire suas dúvidas ou agende sua consulta.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="contato-card">
+          <div class="contato-linha"><i class="bi bi-geo-alt-fill"></i><div><strong>Endereço</strong><br><span class="text-muted">Av. Santana, 531 — Centro<br>Caetité/BA — CEP 46400-000</span></div></div>
+          <div class="contato-linha"><i class="bi bi-telephone-fill"></i><div><strong>Telefone</strong><br><span class="text-muted">(00) 0000-0000</span></div></div>
+          <div class="contato-linha"><i class="bi bi-whatsapp"></i><div><strong>WhatsApp</strong><br><a class="text-muted text-decoration-none" href="#" data-wa-msg="Olá! Vim pelo site e gostaria de mais informações.">+55 (77) 9877-7720</a></div></div>
+          <div class="contato-linha"><i class="bi bi-envelope-fill"></i><div><strong>E-mail</strong><br><span class="text-muted">contato@clinicaprovida.com.br</span></div></div>
+          <div class="contato-linha mb-0"><i class="bi bi-clock-fill"></i><div><strong>Horário</strong><br><span class="text-muted">Seg. a sex.: 7h às 19h<br>Sábado: 7h às 12h</span></div></div>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="contato-card">
+          <form id="formContato" class="row g-3">
+            <div class="col-md-6"><input type="text" class="form-control" id="fNome" placeholder="Seu nome" required></div>
+            <div class="col-md-6"><input type="tel" class="form-control" id="fTel" placeholder="Telefone / WhatsApp" required></div>
+            <div class="col-12">
+              <select class="form-select" id="fEsp">
+                <option value="">Especialidade desejada</option>
+                <option>Cardiologia</option><option>Ginecologia</option><option>Pediatria</option>
+                <option>Ortopedia</option><option>Dermatologia</option><option>Neurologia</option>
+                <option>Oftalmologia</option><option>Clínica Geral</option>
+              </select>
+            </div>
+            <div class="col-12"><textarea class="form-control" id="fMsg" rows="4" placeholder="Sua mensagem"></textarea></div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-azul w-100 py-2"><i class="bi bi-send me-1"></i> Enviar pelo WhatsApp</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-12">
+        <!-- TROQUE AQUI pelo endereço real da clínica no Google Maps -->
+        <iframe class="mapa" loading="lazy" title="Mapa da clínica"
+          src="https://www.google.com/maps?q=Av.%20Santana%2C%20531%20-%20Centro%2C%20Caetit%C3%A9%20-%20BA%2C%2046400-000&output=embed"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RODAPÉ ================= -->
+<footer class="pt-5">
+  <div class="container">
+    <div class="row g-4 pb-4">
+      <div class="col-lg-4">
+        <h5 class="text-white fw-bold"><i class="bi bi-heart-pulse-fill me-1"></i> Policlínica Pro Vida</h5>
+        <p class="small mt-3 mb-2">Consultas, procedimentos, exames complementares, psicologia e fisioterapia em um só lugar.</p>
+        <p class="small mb-0 opacity-75">Lopes &amp; Rodrigues Serviços Médicos Ltda<br>CNPJ 33.927.850/0001-99</p>
+        <div class="social mt-3">
+          <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" data-wa-msg="Olá!" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Navegação</h6>
+        <ul class="list-unstyled small">
+          <li class="mb-2"><a href="#inicio">Início</a></li>
+          <li class="mb-2"><a href="#sobre">Sobre</a></li>
+          <li class="mb-2"><a href="#especialidades">Especialidades</a></li>
+          <li class="mb-2"><a href="#medicos">Corpo Clínico</a></li>
+          <li class="mb-2"><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-3">
+        <h6>Atendimento</h6>
+        <ul class="list-unstyled small">
+          <li class="mb-2">Seg. a sex.: 7h às 19h</li>
+          <li class="mb-2">Sábado: 7h às 12h</li>
+          <li class="mb-2"><a href="#" data-wa-msg="Olá! Vim pelo site e gostaria de mais informações."><i class="bi bi-whatsapp me-1"></i>(77) 9877-7720</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3">
+        <h6>Endereço</h6>
+        <p class="small mb-2">Av. Santana, 531 — Centro<br>Caetité/BA — CEP 46400-000</p>
+        <a class="small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Av.%20Santana%2C%20531%2C%20Caetit%C3%A9%20-%20BA"><i class="bi bi-geo-alt me-1"></i>Como chegar</a>
+      </div>
+    </div>
+    <div class="rodape-base py-3 text-center small">
+      © <span id="ano"></span> Policlínica Pro Vida · Lopes &amp; Rodrigues Serviços Médicos Ltda · CNPJ 33.927.850/0001-99<br>Todos os direitos reservados. · Responsável técnico: Dr. Marcos Gomes Lopes — CRM 10826
+    </div>
+  </div>
+</footer>
+
+<!-- ================= BOTÃO VOLTAR AO TOPO ================= -->
+<button class="btn-topo" id="btnTopo" aria-label="Voltar ao topo"><i class="bi bi-arrow-up"></i></button>
+
+<!-- ================= WHATSAPP INTERATIVO ================= -->
+<div class="wa-balao" id="waBalao">Olá! 👋 Posso ajudar?</div>
+
+<div class="wa-janela" id="waJanela" role="dialog" aria-label="Atendimento via WhatsApp">
+  <div class="wa-topo">
+    <div class="avatar"><i class="bi bi-heart-pulse-fill"></i></div>
+    <div>
+      <strong>Clínica Provida</strong><br>
+      <small><i class="bi bi-circle-fill text-success" style="font-size:.5rem"></i> Online · responde em minutos</small>
+    </div>
+    <button class="fechar" id="waFechar" aria-label="Fechar"><i class="bi bi-x-lg"></i></button>
+  </div>
+  <div class="wa-corpo">
+    <div class="wa-msg">Olá! 😊 Bem-vindo(a) à <strong>Clínica Provida</strong>.<br>Como podemos ajudar?</div>
+    <button class="wa-opcao" data-wa-msg="Olá! Gostaria de agendar uma consulta."><i class="bi bi-calendar-check me-2"></i>Agendar consulta</button>
+    <button class="wa-opcao" data-wa-msg="Olá! Gostaria de saber quais exames vocês realizam."><i class="bi bi-clipboard2-pulse me-2"></i>Exames disponíveis</button>
+    <button class="wa-opcao" data-wa-msg="Olá! Gostaria de saber o valor de uma consulta particular."><i class="bi bi-cash-coin me-2"></i>Valores de consulta</button>
+    <button class="wa-opcao" data-wa-msg="Olá! Gostaria de falar com a recepção."><i class="bi bi-headset me-2"></i>Falar com a recepção</button>
+  </div>
+  <form class="wa-rodape" id="waForm">
+    <input type="text" id="waTexto" placeholder="Digite sua mensagem..." aria-label="Mensagem">
+    <button type="submit" aria-label="Enviar"><i class="bi bi-send-fill"></i></button>
+  </form>
+</div>
+
+<button class="wa-btn" id="waBtn" aria-label="Abrir WhatsApp">
+  <i class="bi bi-whatsapp"></i>
+  <span class="badge-wa">1</span>
+</button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
