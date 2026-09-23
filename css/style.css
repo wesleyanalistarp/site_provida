@@ -90,6 +90,13 @@ section { scroll-margin-top: 80px; }
   font-size: 1.7rem; margin-bottom: 1rem;
 }
 .info-box h5 { font-weight: 600; color: var(--azul-escuro); }
+@media (max-width: 767.98px) {
+  /* no celular: diferenciais mais compactos para caber em 2 colunas */
+  .info-box { padding: 1.2rem .8rem; }
+  .info-box .icone { width: 52px; height: 52px; font-size: 1.4rem; margin-bottom: .7rem; }
+  .info-box h5 { font-size: .95rem; line-height: 1.25; margin-bottom: .4rem; }
+  .info-box p { font-size: .8rem; line-height: 1.4; }
+}
 
 /* ---------- Sobre ---------- */
 .sobre-img { border-radius: var(--raio); box-shadow: var(--sombra); width: 100%; object-fit: cover; aspect-ratio: 4/3; }
@@ -154,6 +161,15 @@ section { scroll-margin-top: 80px; }
 .esp-item span { font-weight: 500; color: var(--azul-escuro); transition: color .3s; }
 .esp-item:hover { background: var(--azul-medio); border-color: var(--azul-medio); transform: translateY(-4px); }
 .esp-item:hover i, .esp-item:hover span { color: #fff; }
+@media (max-width: 767.98px) {
+  /* no celular: ícone em cima, nome centralizado embaixo */
+  .esp-item {
+    flex-direction: column; justify-content: center; text-align: center;
+    gap: .5rem; padding: 1rem .5rem; min-height: 110px;
+  }
+  .esp-item i { font-size: 1.7rem; }
+  .esp-item span { font-size: .9rem; line-height: 1.25; word-break: normal; overflow-wrap: anywhere; }
+}
 
 /* ---------- Contato ---------- */
 .contato-card { background: #fff; border-radius: var(--raio); box-shadow: var(--sombra); padding: 2rem; height: 100%; }
