@@ -116,4 +116,290 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }, { threshold: .5 });
   contadores.forEach(c => obs.observe(c));
+
+  /* ---------- Corpo clínico: filtro + busca + slider (dados em js/medicos.js) ---------- */
+  iniciarCorpoClinico();
 });
+
+/* =========================================================
+   CORPO CLÍNICO — filtro por especialidade + busca + slider
+   ========================================================= */
+const AVATAR_PADRAO = "data:image/svg+xml;utf8," + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+  '<stop offset="0" stop-color="#dbe8fd"/><stop offset="1" stop-color="#a9c5f2"/></linearGradient></defs>' +
+  '<rect width="300" height="400" fill="url(#g)"/><circle cx="150" cy="150" r="62" fill="#fff" opacity=".9"/>' +
+  '<path d="M30 400c6-95 56-150 120-150s114 55 120 150z" fill="#fff" opacity=".9"/></svg>');
+
+// Quantos botões de especialidade aparecem antes do "+ N especialidades" (desktop)
+const CHIPS_VISIVEIS = 8;
+
+const escaparHTML = txt => String(txt ?? "").replace(/[&<>"']/g, c =>
+  ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const normalizar = txt => String(txt ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
+
+function cardMedico(m, i) {
+  const nome = escaparHTML(m.nome);
+  const esp = escaparHTML(m.especialidade);
+  const crm = escaparHTML(m.registro || m.crm);
+  const foto = m.foto ? "img/medicos/" + encodeURI(m.foto) : AVATAR_PADRAO;
+  const itens = (m.itens || []).map(t => `<li><i class="bi bi-check2-circle"></i>${escaparHTML(t)}</li>`).join("");
+  const msg = escaparHTML(`Olá! Gostaria de agendar com ${m.nome} (${m.area || m.especialidade}).`);
+  return `
+    <div class="slide-medico" role="listitem">
+      <div class="flip-card" tabindex="0" aria-label="${nome} — ver especialidades">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <img src="${foto}" alt="${nome}" loading="${i < 4 ? "eager" : "lazy"}" onerror="this.onerror=null;this.src=AVATAR_PADRAO">
+            <div class="corpo">
+              <h5>${nome}</h5>
+              <span class="esp">${esp}</span>
+              ${crm ? `<span class="crm">${crm}</span>` : ""}
+              <span class="dica"><span class="dica-desktop">Passe o mouse</span><span class="dica-mobile">Toque aqui</span> para ver mais <i class="bi bi-arrow-right"></i></span>
+            </div>
+          </div>
+          <div class="flip-back">
+            <h5>${nome}</h5>
+            <div class="area">${esp}</div>
+            ${crm ? `<div class="registro">${crm}</div>` : ""}
+            ${itens ? `<ul>${itens}</ul>` : `<p class="verso-texto">Agende sua consulta com ${nome.split(" ").slice(0, 3).join(" ")} pelo nosso WhatsApp.</p>`}
+            <a href="#" class="btn btn-light text-azul" data-wa-msg="${msg}">
+              <i class="bi bi-whatsapp me-1"></i> Agendar consulta
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function iniciarCorpoClinico() {
+  const slider = document.getElementById("sliderMedicos");
+  const trilho = document.getElementById("trilhoMedicos");
+  if (!slider || !trilho || typeof MEDICOS === "undefined") return;
+
+  const busca = document.getElementById("buscaMedico");
+  const chipsBox = document.getElementById("chipsEspecialidades");
+  const vazio = document.getElementById("vazioMedicos");
+  const btnAnt = slider.querySelector(".anterior");
+  const btnProx = slider.querySelector(".proximo");
+  const dotsBox = document.getElementById("dotsMedicos");
+  const contador = document.getElementById("contadorMedicos");
+
+  let filtroEsp = "";       // "" = todas
+  let termo = "";
+  let lista = MEDICOS;
+  let chipsAbertos = false;
+
+  /* ----- botões de especialidade (gerados a partir da lista) ----- */
+  const contagem = {};
+  const grupo = m => (m.area || m.especialidade || "").trim();
+  MEDICOS.forEach(m => { const e = grupo(m); if (e) contagem[e] = (contagem[e] || 0) + 1; });
+  // mais profissionais primeiro; empate em ordem alfabética
+  const especialidades = Object.keys(contagem).sort((a, b) => contagem[b] - contagem[a] || a.localeCompare(b, "pt-BR"));
+
+  const montarChips = () => {
+    const extras = especialidades.length - CHIPS_VISIVEIS;
+    const chip = (valor, rotulo, qtd, oculto) =>
+      `<button type="button" class="chip-esp${valor === filtroEsp ? " ativo" : ""}${oculto ? " chip-extra" : ""}" data-esp="${escaparHTML(valor)}" aria-pressed="${valor === filtroEsp}">${escaparHTML(rotulo)} <small>${qtd}</small></button>`;
+    chipsBox.innerHTML =
+      chip("", "Todos", MEDICOS.length, false) +
+      especialidades.map((e, i) => chip(e, e, contagem[e], i >= CHIPS_VISIVEIS && e !== filtroEsp)).join("") +
+      (extras > 0 ? `<button type="button" class="chip-esp chip-mais" aria-expanded="${chipsAbertos}">${chipsAbertos ? "Mostrar menos" : `+ ${extras} especialidades`}</button>` : "");
+    chipsBox.classList.toggle("aberto", chipsAbertos);
+  };
+
+  chipsBox.addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    if (b.classList.contains("chip-mais")) { chipsAbertos = !chipsAbertos; montarChips(); return; }
+    filtroEsp = b.dataset.esp;
+    montarChips();
+    aplicarFiltro();
+    // no celular, traz o botão escolhido para a vista
+    chipsBox.querySelector(".chip-esp.ativo")?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  });
+
+  let tBusca;
+  busca?.addEventListener("input", () => {
+    clearTimeout(tBusca);
+    tBusca = setTimeout(() => { termo = normalizar(busca.value); aplicarFiltro(); }, 150);
+  });
+
+  /* ----- filtro ----- */
+  function aplicarFiltro() {
+    lista = MEDICOS.filter(m =>
+      (!filtroEsp || grupo(m) === filtroEsp) &&
+      (!termo || normalizar([m.nome, m.especialidade, m.area, (m.itens || []).join(" ")].join(" ")).includes(termo)));
+    trilho.innerHTML = lista.map(cardMedico).join("");
+    trilho.scrollTo({ left: 0, behavior: "instant" });
+    vazio.hidden = lista.length > 0;
+    slider.hidden = lista.length === 0;
+    qtdDots = -1;
+    atualizar();
+  }
+
+  /* ----- cliques nos cards (giro no celular + botão WhatsApp) ----- */
+  const semHover = window.matchMedia("(hover: none), (pointer: coarse)");
+  trilho.addEventListener("click", e => {
+    const wa = e.target.closest("[data-wa-msg]");
+    if (wa) { e.preventDefault(); abrirWhatsApp(wa.dataset.waMsg); return; }
+    const card = e.target.closest(".flip-card");
+    if (!card || !semHover.matches) return;
+    const jaVirado = card.classList.contains("flipped");
+    trilho.querySelectorAll(".flip-card.flipped").forEach(c => c.classList.remove("flipped"));
+    if (!jaVirado) card.classList.add("flipped");
+  });
+  trilho.addEventListener("keydown", e => {
+    const card = e.target.closest(".flip-card");
+    if (card && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); card.classList.toggle("flipped"); }
+  });
+
+  /* ----- slider ----- */
+  const larguraPasso = () => {
+    const primeiro = trilho.children[0];
+    if (!primeiro) return trilho.clientWidth || 1;
+    const gap = parseFloat(getComputedStyle(trilho).columnGap) || 0;
+    return primeiro.getBoundingClientRect().width + gap;
+  };
+  const gapTrilho = () => parseFloat(getComputedStyle(trilho).columnGap) || 0;
+  const porPagina = () => Math.max(1, Math.floor((trilho.clientWidth + gapTrilho() + 2) / larguraPasso()));
+  const paginas = () => Math.max(1, Math.ceil(lista.length / porPagina()));
+  const indiceAtual = () => Math.round(trilho.scrollLeft / larguraPasso());
+  const irPara = indice => trilho.scrollTo({ left: indice * larguraPasso(), behavior: "smooth" });
+
+  let qtdDots = -1;
+  const montarDots = () => {
+    const n = paginas();
+    if (n === qtdDots) return;
+    qtdDots = n;
+    dotsBox.innerHTML = "";
+    for (let p = 0; p < n; p++) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("aria-label", `Página ${p + 1} de ${n}`);
+      b.addEventListener("click", () => { pausado = true; irPara(p * porPagina()); });
+      dotsBox.appendChild(b);
+    }
+  };
+
+  function atualizar() {
+    const total = lista.length;
+    montarDots();
+    const pp = porPagina();
+    const cabeTudo = pp >= total;
+    const fim = cabeTudo || trilho.scrollLeft + trilho.clientWidth >= trilho.scrollWidth - 4;
+    const ini = Math.min(indiceAtual(), Math.max(0, total - pp));
+    const pagina = fim ? qtdDots - 1 : Math.floor(ini / pp);
+    [...dotsBox.children].forEach((d, i) => d.classList.toggle("ativo", i === pagina));
+    btnAnt.disabled = trilho.scrollLeft <= 4;
+    btnProx.disabled = fim;
+    dotsBox.hidden = cabeTudo || qtdDots > 15; // muitas páginas (celular): fica só o contador
+    slider.classList.toggle("sem-rolagem", cabeTudo);
+
+    const primeiro = fim ? Math.max(1, total - pp + 1) : ini + 1;
+    const ultimo = Math.min(total, primeiro + pp - 1);
+    const onde = filtroEsp ? ` em <b>${escaparHTML(filtroEsp)}</b>` : "";
+    const plural = total === 1 ? "profissional" : "profissionais";
+    contador.innerHTML = !total ? "" :
+      cabeTudo ? `${total} ${plural}${onde}` : `${primeiro === ultimo ? primeiro : primeiro + "–" + ultimo} de ${total} ${plural}${onde}`;
+  }
+
+  btnAnt.addEventListener("click", () => { pausado = true; irPara(Math.max(0, indiceAtual() - porPagina())); });
+  btnProx.addEventListener("click", () => { pausado = true; irPara(indiceAtual() + porPagina()); });
+  trilho.addEventListener("scroll", () => requestAnimationFrame(atualizar), { passive: true });
+  window.addEventListener("resize", atualizar);
+  slider.addEventListener("keydown", e => {
+    if (e.target.closest(".flip-card") && (e.key === "Enter" || e.key === " ")) return;
+    if (e.key === "ArrowRight") { e.preventDefault(); btnProx.click(); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); btnAnt.click(); }
+  });
+
+  /* ----- passa sozinho a cada 6s; para quando o visitante interage ----- */
+  let pausado = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let visivel = false;
+  ["pointerenter", "touchstart", "focusin", "wheel"].forEach(ev =>
+    slider.addEventListener(ev, () => { pausado = true; }, { passive: true }));
+  busca?.addEventListener("focus", () => { pausado = true; });
+  chipsBox.addEventListener("click", () => { pausado = true; });
+  new IntersectionObserver(ent => { visivel = ent[0].isIntersecting; }, { threshold: .4 }).observe(slider);
+  setInterval(() => {
+    if (pausado || !visivel || document.hidden || slider.hidden) return;
+    irPara(btnProx.disabled ? 0 : indiceAtual() + porPagina());
+  }, 6000);
+
+  /* ----- formulário de contato: lista com todas as especialidades (ordem alfabética) ----- */
+  const selEsp = document.getElementById("fEsp");
+  if (selEsp) {
+    const ordem = [...especialidades].sort((a, b) => a.localeCompare(b, "pt-BR"));
+    selEsp.innerHTML = '<option value="">Especialidade desejada</option>' +
+      ordem.map(e => `<option>${escaparHTML(e)}</option>`).join("") +
+      '<option>Outra / não sei qual especialidade</option>';
+  }
+
+  /* ----- seção "Especialidades": cards pequenos e clicáveis (gerados da lista) ----- */
+  const grade = document.getElementById("gradeEspecialidades");
+  const btnVerEsp = document.getElementById("btnVerEsp");
+  if (grade) {
+    const ICONES = {
+      "Psicologia": "chat-heart", "Gastroenterologia": "capsule", "Reumatologia": "person-walking",
+      "Anestesiologia": "activity", "Angiologia": "droplet", "Cirurgia Geral": "scissors",
+      "Clínica Geral": "clipboard2-pulse", "Endocrinologia": "clipboard2-data", "Neurologia": "lightning-charge",
+      "Neuropsicologia": "puzzle", "Oftalmologia": "eye", "Ortopedia": "person-arms-up",
+      "Pneumologia": "lungs", "Psiquiatria": "chat-square-heart", "Urologia": "gender-male",
+      "Alergologia": "flower1", "Avaliação e Diagnóstico": "search-heart", "Cardiologia": "heart-pulse",
+      "Cirurgia Plástica": "stars", "Coloproctologia": "clipboard2-plus", "Dermatologia": "droplet-half",
+      "Fisioterapia": "universal-access", "Ginecologia": "gender-female", "Infectologia": "virus",
+      "Neurocirurgia": "bandaid", "Nutrição": "apple", "Otorrinolaringologia": "ear",
+      "Pediatria": "emoji-smile", "Radiologia": "file-earmark-medical"
+    };
+    grade.innerHTML = especialidades.map(e => `
+      <button type="button" class="esp-card" data-esp="${escaparHTML(e)}" aria-label="Ver profissionais de ${escaparHTML(e)}">
+        <i class="bi bi-${ICONES[e] || "plus-circle"} esp-icone"></i>
+        <span class="esp-nome">${escaparHTML(e)}</span>
+        <small class="esp-qtd">${contagem[e]} ${contagem[e] === 1 ? "profissional" : "profissionais"}</small>
+        <span class="esp-ver">Ver profissionais <i class="bi bi-chevron-right"></i></span>
+        <i class="bi bi-chevron-right esp-seta" aria-hidden="true"></i>
+      </button>`).join("");
+
+    grade.addEventListener("click", e => {
+      const card = e.target.closest(".esp-card");
+      if (!card) return;
+      filtroEsp = card.dataset.esp; termo = ""; if (busca) busca.value = "";
+      montarChips(); aplicarFiltro();
+      document.getElementById("medicos").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    // Mostra só as primeiras; o botão abre todas
+    let abertas = false;
+    const atualizarGrade = () => {
+      grade.classList.toggle("aberta", abertas);
+      btnVerEsp.hidden = especialidades.length <= 6;
+      btnVerEsp.innerHTML = abertas
+        ? 'Mostrar menos <i class="bi bi-chevron-up"></i>'
+        : `Ver todas as ${especialidades.length} especialidades <i class="bi bi-chevron-down"></i>`;
+    };
+    // No celular o nome fica em uma linha só: se não couber, a fonte diminui um pouco até caber
+    const ajustarNomes = () => {
+      grade.querySelectorAll(".esp-nome").forEach(el => {
+        el.style.fontSize = ""; el.style.whiteSpace = "";
+        if (!el.offsetParent) return; // card escondido
+        let tam = parseFloat(getComputedStyle(el).fontSize);
+        while (el.scrollWidth > el.clientWidth + 0.5 && tam > 9) { tam -= 0.5; el.style.fontSize = tam + "px"; }
+        // nome muito longo em tela muito estreita: último recurso, deixa ir para 2 linhas (nunca corta)
+        el.style.whiteSpace = el.scrollWidth > el.clientWidth + 0.5 ? "normal" : "";
+      });
+    };
+    let tAjuste;
+    window.addEventListener("resize", () => { clearTimeout(tAjuste); tAjuste = setTimeout(ajustarNomes, 120); });
+    document.fonts?.ready.then(ajustarNomes);
+
+    btnVerEsp.addEventListener("click", () => {
+      abertas = !abertas; atualizarGrade(); ajustarNomes();
+      if (!abertas) document.getElementById("especialidades").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    atualizarGrade();
+    ajustarNomes();
+  }
+
+  montarChips();
+  aplicarFiltro();
+}

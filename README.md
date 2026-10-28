@@ -15,7 +15,7 @@ img/            imagens (fachada e fotos)
 
 - **Número do WhatsApp:** primeira linha de `js/main.js` (`WHATSAPP_NUMERO`).
 - **Foto da fachada:** substitua `img/fachada_01.png` mantendo o mesmo nome.
-- **Médicos:** cada card fica na seção `#medicos` do `index.html`.
+- **Médicos (corpo clínico):** cadastre cada profissional em `js/medicos.js` (nome, especialidade, CRM, foto e itens do verso) e coloque a foto em `img/medicos/` com o mesmo nome escrito no campo `foto`. Os botões de especialidade, a busca e o slider são montados sozinhos a partir dessa lista.
 
 ## Como ver
 
