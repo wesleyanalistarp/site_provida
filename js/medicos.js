@@ -223,14 +223,6 @@ const MEDICOS = [
     itens: []
   },
   {
-    nome: "Dra. Ivina Fialho",
-    especialidade: "Reumatologista",
-    area: "Reumatologia",
-    registro: "CRM 24605",
-    foto: "site/ivina-fialho.jpg",
-    itens: []
-  },
-  {
     nome: "Dr. James Dean",
     especialidade: "Angiologista",
     area: "Angiologia",
