@@ -5,7 +5,15 @@
 // >>> TROQUE AQUI pelo número do WhatsApp da clínica (DDI + DDD + número, só dígitos)
 const WHATSAPP_NUMERO = "557798777720";
 
-function abrirWhatsApp(msg) {
+/* ---------- Analytics (Umami): registra eventos sem quebrar o site se o script não carregar ---------- */
+function rastrear(evento, dados) {
+  try { if (window.umami && typeof window.umami.track === "function") window.umami.track(evento, dados); } catch (e) { /* ignora */ }
+}
+// de qual parte do site veio o clique (id da seção mais próxima)
+const origemDe = el => (el && el.closest("[id]") ? el.closest("[id]").id : "site");
+
+function abrirWhatsApp(msg, origem) {
+  rastrear("WhatsApp", { origem: origem || "site", mensagem: String(msg || "Olá!").slice(0, 80) });
   const url = "https://wa.me/" + WHATSAPP_NUMERO + "?text=" + encodeURIComponent(msg || "Olá!");
   window.open(url, "_blank", "noopener");
 }
@@ -18,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     el.addEventListener("click", e => {
       e.preventDefault();
       e.stopPropagation(); // não desvira o card ao clicar no botão
-      abrirWhatsApp(el.dataset.waMsg);
+      abrirWhatsApp(el.dataset.waMsg, origemDe(el));
     });
   });
 
@@ -77,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("waForm").addEventListener("submit", e => {
     e.preventDefault();
     const txt = document.getElementById("waTexto").value.trim();
-    abrirWhatsApp(txt || "Olá!");
+    abrirWhatsApp(txt || "Olá!", "janela-whatsapp");
   });
 
   // Balão de saudação aparece após 3s e some após 8s
@@ -96,7 +104,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let texto = `Olá! Meu nome é ${nome}.\nTelefone: ${tel}`;
     if (esp) texto += `\nEspecialidade: ${esp}`;
     if (msg) texto += `\nMensagem: ${msg}`;
-    abrirWhatsApp(texto);
+    rastrear("Formulário de contato", { especialidade: esp || "não informada" });
+    abrirWhatsApp(texto, "formulario-contato");
   });
 
   /* ---------- Contador animado (seção Sobre) ---------- */
@@ -146,7 +155,7 @@ function cardMedico(m, i) {
   const msg = escaparHTML(`Olá! Gostaria de agendar com ${m.nome} (${m.area || m.especialidade}).`);
   return `
     <div class="slide-medico" role="listitem">
-      <div class="flip-card" tabindex="0" aria-label="${nome} — ver especialidades">
+      <div class="flip-card" tabindex="0" aria-label="${nome} — ver especialidades" data-nome="${nome}" data-area="${escaparHTML(m.area || m.especialidade)}">
         <div class="flip-inner">
           <div class="flip-front">
             <img src="${foto}" alt="${nome}" loading="${i < 4 ? "eager" : "lazy"}" onerror="this.onerror=null;this.src=AVATAR_PADRAO">
@@ -212,16 +221,22 @@ function iniciarCorpoClinico() {
     if (!b) return;
     if (b.classList.contains("chip-mais")) { chipsAbertos = !chipsAbertos; montarChips(); return; }
     filtroEsp = b.dataset.esp;
+    rastrear("Filtro de especialidade", { especialidade: filtroEsp || "Todos" });
     montarChips();
     aplicarFiltro();
     // no celular, traz o botão escolhido para a vista
     chipsBox.querySelector(".chip-esp.ativo")?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   });
 
-  let tBusca;
+  let tBusca, tBuscaReg;
   busca?.addEventListener("input", () => {
     clearTimeout(tBusca);
     tBusca = setTimeout(() => { termo = normalizar(busca.value); aplicarFiltro(); }, 150);
+    clearTimeout(tBuscaReg);
+    tBuscaReg = setTimeout(() => {
+      const t = busca.value.trim();
+      if (t.length >= 3) rastrear("Busca de profissional", { termo: t.slice(0, 40), resultados: lista.length });
+    }, 1500);
   });
 
   /* ----- filtro ----- */
@@ -241,12 +256,18 @@ function iniciarCorpoClinico() {
   const semHover = window.matchMedia("(hover: none), (pointer: coarse)");
   trilho.addEventListener("click", e => {
     const wa = e.target.closest("[data-wa-msg]");
-    if (wa) { e.preventDefault(); abrirWhatsApp(wa.dataset.waMsg); return; }
+    if (wa) {
+      e.preventDefault();
+      const c = wa.closest(".flip-card");
+      rastrear("Agendar com profissional", { profissional: c?.dataset.nome || "", especialidade: c?.dataset.area || "" });
+      abrirWhatsApp(wa.dataset.waMsg, "card-profissional");
+      return;
+    }
     const card = e.target.closest(".flip-card");
     if (!card || !semHover.matches) return;
     const jaVirado = card.classList.contains("flipped");
     trilho.querySelectorAll(".flip-card.flipped").forEach(c => c.classList.remove("flipped"));
-    if (!jaVirado) card.classList.add("flipped");
+    if (!jaVirado) { card.classList.add("flipped"); rastrear("Ver detalhes do profissional", { profissional: card.dataset.nome || "" }); }
   });
   trilho.addEventListener("keydown", e => {
     const card = e.target.closest(".flip-card");
@@ -364,6 +385,7 @@ function iniciarCorpoClinico() {
       const card = e.target.closest(".esp-card");
       if (!card) return;
       filtroEsp = card.dataset.esp; termo = ""; if (busca) busca.value = "";
+      rastrear("Card de especialidade", { especialidade: filtroEsp });
       montarChips(); aplicarFiltro();
       document.getElementById("medicos").scrollIntoView({ behavior: "smooth", block: "start" });
     });
